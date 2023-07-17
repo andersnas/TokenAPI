@@ -1,6 +1,6 @@
 //This app embed a number of functions needed for antipiracy
 //author anasman@akamai.com 2023
- 
+
 const loglevel = 'debug';
 const express = require('express');
 const app = express();
