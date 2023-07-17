@@ -8,9 +8,9 @@ const cors = require('cors');
 const EdgeAuth = require('akamai-edgeauth');
 var EdgeGrid = require('akamai-edgegrid');
 const config = require("config");
-
+   
 var eg = new EdgeGrid(config.get("akamaiAuth.clientToken"), config.get("akamaiAuth.clientSecret"), config.get("akamaiAuth.accessToken"), config.get("akamaiAuth.baseUri"));
-
+ 
 //Get date time
 function timestamp() {
 	let date_ob = new Date();
