@@ -3,15 +3,6 @@
         "port": 3001
     },
     "akamaiAuth": {
-        "clientToken": "akab-YourClientToken",
-        "clientSecret": "YourClientSecret",
-        "accessToken": "akab-YourAccessToken",
-        "baseUri": "https://akab-YourBaseURL.luna.akamaiapis.net/"
-    },
-    "akamaiEdgeRC": {
-        "basePath":"/taas/v2/revocation-lists/YourListID/identifiers"
-    },
-    "token": {
-        "key": "YourPrivateTokenKey"
+        
     }
 }
