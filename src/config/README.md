@@ -1,1 +1,1 @@
-You need to set your configuration here
+You need to set your configuration details in the default.json file.
