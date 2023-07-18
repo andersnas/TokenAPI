@@ -39,10 +39,16 @@ function log(msg,msgtype){
 		if (msgtype == 'error'){console.error(msg);}}
 	}
 
-//API functions
+//Catch all requests and log them
+app.use((req, res, next) => {
+		log(req.method+' '+req.url+' '+JSON.stringify(req.query));
+		next();
+	});
+
+//API methods
 app.get('/test', (req, res) => {
 	log('test');
-		res.status(200).json('ok');
+	res.status(200).json('ok');
 });
 
 app.get('/createToken', (req, res) => {
@@ -115,14 +121,67 @@ app.get('/listTokens', (req, res) => {
 		headers: {
 			'Accept': "application/json"
 		}
-		});
-		eg.send(function(error, response, body) {
-			log('Error: '+error);
-			log('Body: '+body);
-			response=JSON.parse(body);
-			res.status(200).json(response);
-		});	
+	});
+	eg.send(function(error, response, body) {
+		log('Error: '+error);
+		log('Body: '+body);
+		response=JSON.parse(body);
+		res.status(200).json(response);
+	});	
 });
+
+//The following methods responds to a Grafana JSON request
+app.get('/blockList/search', (req, res) => {
+	
+		let data = [ { "text": "blocklist", "value": 1} ];
+    	res.status(200).send(data);
+	});
+
+
+	const getQueryData = () => {
+		return [
+		  {
+			"target":"pps in",
+			"datapoints":[
+			  [622,1450754160000],
+			  [365,1450754220000]
+			]
+		  },
+		  {
+			"target":"pps out",
+			"datapoints":[
+			  [861,1450754160000],
+			  [767,1450754220000]
+			]
+		  },
+		  {
+			"target":"errors out",
+			"datapoints":[
+			  [861,1450754160000],
+			  [767,1450754220000]
+			]
+		  },
+		  {
+			"target":"errors in",
+			"datapoints":[
+			  [861,1450754160000],
+			  [767,1450754220000]
+			]
+		  }
+		]
+	  };
+
+app.get('/blockList/query', (req, res) => {
+	let data = getQueryData();
+	res.status(200).send(data);
+});
+
+app.get('/blockList/annotations', (req, res) => {
+	
+	let data = [ { "text": "upper_25", "value": 1}, { "text": "upper_75", "value": 2} ];
+	res.status(200).send(data);
+});
+
 
 // Define a catch-all middleware function that sends a 404 error response
 app.use((req, res, next) => {
