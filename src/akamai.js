@@ -49,8 +49,7 @@ app.use(cookieParser());
 //Catch all and log
 app.use((req, res, next) => {
 		log(req.method+' '+req.url+' '+JSON.stringify(req.query)+' '+JSON.stringify(req.body));
-		let cookie = req.headers['cookie'];
-		console.log('cookie: '+cookie);
+		console.log('cookie: '+req.cookies);
 		next();
 	});
 
