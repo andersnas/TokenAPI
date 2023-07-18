@@ -44,7 +44,7 @@ app.use(express.json());
 
 app.use((req, res, next) => {
 		log(req.method+' '+req.url+' '+JSON.stringify(req.query)+' '+JSON.stringify(req.body));
-		console.log(JSON.stringify(req.body));
+		//console.log(JSON.stringify(req.body));
 		next();
 	});
 
