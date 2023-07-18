@@ -137,8 +137,23 @@ app.get('/listTokens', (req, res) => {
 //The following methods responds to a Grafana JSON request
 app.get('/blockList/listTokens', (req, res) => {
 	log('Query');
-	let data = {"listItems":[{"id":"Fabolus","ttl":17993}]};
-	res.status(200).json(data);
+	//let data = {"listItems":[{"id":"Fabolus","ttl":17993}]};
+	eg.auth({
+		path: config.get("akamaiEdgeRC.basePath"), 
+		method: 'GET',
+		headers: {
+			'Accept': "application/json"
+		}
+	});
+	eg.send(function(error, response, body) {
+		log('Error: '+error);
+		log('Body: '+body);
+		let bodyobj = JSON.parse(body);
+		let object = { "listItems": bodyobj};
+		log (JSON.stringify(object));
+
+		res.status(200).json(object);
+	});	
 });
 
 // Define a catch-all middleware function that sends a 404 error response
