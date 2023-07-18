@@ -5,6 +5,7 @@ const loglevel = 'debug';
 const express = require('express');
 const app = express();
 const cors = require('cors');
+const cookieParser = require('cookie-parser');
 const EdgeAuth = require('akamai-edgeauth');
 var EdgeGrid = require('akamai-edgegrid');
 const config = require("config");
@@ -41,6 +42,8 @@ function log(msg,msgtype){
 
 //Catch all requests and log them
 app.use(express.json());
+app.use(cookieParser());
+
 
 
 //Catch all and log
