@@ -46,7 +46,7 @@ app.use(express.json());
 //Catch all and log
 app.use((req, res, next) => {
 		log(req.method+' '+req.url+' '+JSON.stringify(req.query)+' '+JSON.stringify(req.body));
-		let cookie = req.headers['cookie'];
+		let cookie = req.rawHeaders;
 		console.log('cookie: '+cookie);
 		next();
 	});
