@@ -41,7 +41,7 @@ function log(msg,msgtype){
 
 //Catch all requests and log them
 app.use((req, res, next) => {
-		log(req.method+' '+req.url+' '+JSON.stringify(req.query));
+		log(req.method+' '+req.url+' '+JSON.stringify(req.query)+' '+JSON.stringify(req.body));
 		next();
 	});
 
