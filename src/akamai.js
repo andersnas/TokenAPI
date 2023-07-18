@@ -46,8 +46,6 @@ app.use(express.json());
 //Catch all and log
 app.use((req, res, next) => {
 		log(req.method+' '+req.url+' '+JSON.stringify(req.query)+' '+JSON.stringify(req.body));
-		let cookie = req.headers['cookie'];
-		console.log('cookie: '+cookie);
 		next();
 	});
 
@@ -137,108 +135,11 @@ app.get('/listTokens', (req, res) => {
 });
 
 //The following methods responds to a Grafana JSON request
-app.get('/', (req, res) => {
-	log('/');
-	let data = { "status": "ok"};
-	res.status(200).send(data);
-});
-
-app.get('/blockList/', (req, res) => {
-	log('/blockList/');
-	let data = { "status": "ok"};
-	res.status(200).send(data);
-});
-
-app.post('/blockList/metrics', (req, res) => {
-	log('metrics');
-	/*{
-			"label": "Describe metric list", // Optional. If the value is empty, use the value as the label
-			"value": "DescribeMetricList", // The value of the option.
-			"payloads": [{ // Configuration parameters of the payload.
-			  "label": "Namespace", // The label of the payload. If the value is empty, use the value as the label.
-			  "name": "namespace", // The name of the payload. If the value is empty, use the name as the label.
-			  "type": "select", // If the value is select, the UI of the payload is a radio box. If the value is multi-select, the UI of the payload is a multi selection box; if the value is input, the UI of the payload is an input box; if the value is textarea, the UI of the payload is a multiline input box. The default is input.
-			  "placeholder": "Please select namespace", // Input box / selection box prompt information.
-			  "reloadMetric": true, // Whether to overload the metrics API after modifying the value of the payload.
-			  "width": 10, // Set the input / selection box width to a multiple of 8px. 
-			  "options": [{ // If the payload type is select / multi-select, the list is the configuration of the option list.
-				"label": "acs_mongodb", // The label of the payload select option.
-				"value": "acs_mongodb", // The label of the payload value.
-			  },{
-				"label": "acs_rds",
-				"value": "acs_rds",
-			  }]
-			},{
-			  "name": "metric",
-			  "type": "select"
-			},{
-			  "name": "instanceId",
-			  "type": "select"
-			}]
-		  },{
-			"value": "DescribeMetricLast",
-			"payloads": [{
-			  "name": "namespace",
-			  "type": "select"
-			},{
-			  "name": "metric",
-			  "type": "select"
-			},{
-			  "name": "instanceId",
-			  "type": "multi-select"
-			}]
-		  } */
-	
-	let data = [];
-    res.status(200).send(data);
-});
-
-
-	const getQueryData = () => {
-		return [
-		  {
-			"target":"pps in",
-			"datapoints":[
-			  [622,1450754160000],
-			  [365,1450754220000]
-			]
-		  },
-		  {
-			"target":"pps out",
-			"datapoints":[
-			  [861,1450754160000],
-			  [767,1450754220000]
-			]
-		  },
-		  {
-			"target":"errors out",
-			"datapoints":[
-			  [861,1450754160000],
-			  [767,1450754220000]
-			]
-		  },
-		  {
-			"target":"errors in",
-			"datapoints":[
-			  [861,1450754160000],
-			  [767,1450754220000]
-			]
-		  }
-		]
-	  };
-
-app.post('/blockList/query', (req, res) => {
+app.get('/blockList/listTokens', (req, res) => {
 	log('Query');
-	let data = getQueryData();
+	let data = [{"id":"Fabolus","ttl":17993}];
 	res.status(200).send(data);
 });
-
-app.get('/blockList/annotations', (req, res) => {
-	log('Annotations');
-	let data = [ { "text": "upper_25", "value": 1}, { "text": "upper_75", "value": 2} ];
-	res.status(200).send(data);
-});
-
 
 // Define a catch-all middleware function that sends a 404 error response
 app.use((req, res, next) => {
