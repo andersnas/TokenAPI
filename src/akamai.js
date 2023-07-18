@@ -215,7 +215,7 @@ app.post('/blockList/metrics', (req, res) => {
 		]
 	  };
 
-app.get('/blockList/query', (req, res) => {
+app.post('/blockList/query', (req, res) => {
 	let data = getQueryData();
 	res.status(200).send(data);
 });
