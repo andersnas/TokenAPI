@@ -137,8 +137,8 @@ app.get('/listTokens', (req, res) => {
 //The following methods responds to a Grafana JSON request
 app.get('/blockList/listTokens', (req, res) => {
 	log('Query');
-	let data = [{"id":"Fabolus","ttl":17993}];
-	res.status(200).send(data);
+	let data = {"listItems":[{"id":"Fabolus","ttl":17993}]};
+	res.status(200).json(data);
 });
 
 // Define a catch-all middleware function that sends a 404 error response
