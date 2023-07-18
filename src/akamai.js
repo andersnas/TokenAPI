@@ -5,7 +5,6 @@ const loglevel = 'debug';
 const express = require('express');
 const app = express();
 const cors = require('cors');
-const cookieParser = require('cookie-parser');
 const EdgeAuth = require('akamai-edgeauth');
 var EdgeGrid = require('akamai-edgegrid');
 const config = require("config");
@@ -42,14 +41,13 @@ function log(msg,msgtype){
 
 //Catch all requests and log them
 app.use(express.json());
-app.use(cookieParser());
-
 
 
 //Catch all and log
 app.use((req, res, next) => {
 		log(req.method+' '+req.url+' '+JSON.stringify(req.query)+' '+JSON.stringify(req.body));
-		console.log('cookie: '+req.cookies);
+		let cookie = req.headers['cookie'];
+		console.log('cookie: '+cookie);
 		next();
 	});
 
