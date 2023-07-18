@@ -41,7 +41,7 @@ function log(msg,msgtype){
 
 //Catch all requests and log them
 app.use((req, res, next) => {
-		log(req.method+' '+req.url+' '+JSON.stringify(req.query)+' '+JSON.stringify(req.body));
+		log(req.method+' '+req.url+' '+JSON.stringify(req.query)+' '+req.body);
 		next();
 	});
 
@@ -132,7 +132,7 @@ app.get('/listTokens', (req, res) => {
 
 //The following methods responds to a Grafana JSON request
 app.get('/', (req, res) => {
-	
+	log('/');
 	let data = { "status": "ok"};
 	res.status(200).send(data);
 });
@@ -140,6 +140,7 @@ app.get('/', (req, res) => {
 
 
 app.post('/blockList/metrics', (req, res) => {
+	log('metrics');
 	
 		let data = [{
 			"label": "Describe metric list", // Optional. If the value is empty, use the value as the label
@@ -216,12 +217,13 @@ app.post('/blockList/metrics', (req, res) => {
 	  };
 
 app.post('/blockList/query', (req, res) => {
+	log('Query');
 	let data = getQueryData();
 	res.status(200).send(data);
 });
 
 app.get('/blockList/annotations', (req, res) => {
-	
+	log('Annotations');
 	let data = [ { "text": "upper_25", "value": 1}, { "text": "upper_75", "value": 2} ];
 	res.status(200).send(data);
 });
