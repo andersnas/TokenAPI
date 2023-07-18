@@ -43,7 +43,7 @@ function log(msg,msgtype){
 app.use(express.json());
 
 app.use((req, res, next) => {
-		log(req.method+' '+req.url+' '+JSON.stringify(req.query)+' '+req.body);
+		log(req.method+' '+req.url+' '+JSON.stringify(req.query)+' '+JSON.stringify(req.body));
 		next();
 	});
 
