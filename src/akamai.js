@@ -42,9 +42,12 @@ function log(msg,msgtype){
 //Catch all requests and log them
 app.use(express.json());
 
+
+//Catch all and log
 app.use((req, res, next) => {
 		log(req.method+' '+req.url+' '+JSON.stringify(req.query)+' '+JSON.stringify(req.body));
-		//console.log(JSON.stringify(req.body));
+		let Cookie = req.headers['Cookie'];
+		console.log('Cookie: '+Cookie);
 		next();
 	});
 
