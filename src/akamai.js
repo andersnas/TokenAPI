@@ -40,6 +40,8 @@ function log(msg,msgtype){
 	}
 
 //Catch all requests and log them
+app.use(express.json());
+
 app.use((req, res, next) => {
 		log(req.method+' '+req.url+' '+JSON.stringify(req.query)+' '+req.body);
 		next();
