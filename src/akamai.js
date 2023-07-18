@@ -139,8 +139,7 @@ app.get('/', (req, res) => {
 
 
 
-
-app.get('/blockList/metrics', (req, res) => {
+app.post('/blockList/metrics', (req, res) => {
 	
 		let data = [{
 			"label": "Describe metric list", // Optional. If the value is empty, use the value as the label
