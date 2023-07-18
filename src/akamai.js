@@ -143,6 +143,12 @@ app.get('/', (req, res) => {
 	res.status(200).send(data);
 });
 
+app.get('/blockList/', (req, res) => {
+	log('/blockList/');
+	let data = { "status": "ok"};
+	res.status(200).send(data);
+});
+
 app.post('/blockList/metrics', (req, res) => {
 	log('metrics');
 	/*{
