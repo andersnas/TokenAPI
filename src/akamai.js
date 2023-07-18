@@ -131,6 +131,12 @@ app.get('/listTokens', (req, res) => {
 });
 
 //The following methods responds to a Grafana JSON request
+app.get('/blockList', (req, res) => {
+	
+	let data = { "status": "ok"};
+	res.status(200).send(data);
+});
+
 app.get('/blockList/search', (req, res) => {
 	
 		let data = [ { "text": "blocklist", "value": 1} ];
