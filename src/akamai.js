@@ -184,27 +184,35 @@ app.get('/gui', (req, res) => {
             <title>Close Tab Example</title>
         </head>
         <body>
+            <button onclick="storeAndClose()">OK</button>
+            <button onclick="closeTab()">Cancel</button>
+
             <script>
-                // Immediately Invoked Function to run the fetch as soon as the page loads
-                (async function() {
+                async function storeAndClose() {
                     try {
                         // Make the API call
                         const response = await fetch('/storeSession?id=${id}&fraud=${fraud}');
                         if (response.ok) {
                             console.log('API call successful');
-                            window.close(); // Close the tab after the API call
                         } else {
                             console.error('API call failed with status', response.status);
                         }
                     } catch (error) {
                         console.error('Error making API call', error);
+                    } finally {
+                        window.close(); // Close the tab after the API call, regardless of success or failure
                     }
-                })();
+                }
+
+                function closeTab() {
+                    window.close();  // Just close the tab
+                }
             </script>
         </body>
         </html>
     `);
 });
+
 
 /*app.get('/gui', (req, res) => {
     res.send(`
