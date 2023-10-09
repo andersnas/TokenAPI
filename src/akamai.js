@@ -346,21 +346,30 @@ app.get('/blockTokenGui', (req, res) => {
 			</div>
 
             <script>
-                async function storeAndClose() {
-                    try {
-                        // Make the API call
-                        const response = await fetch('./blockToken?id=${id}');
-                        if (response.ok) {
-                            console.log('API call successful');
-                        } else {
-                            console.error('API call failed with status', response.status);
-                        }
-                    } catch (error) {
-                        console.error('Error making API call', error);
-                    } finally {
-                        window.close(); // Close the tab after the API call, regardless of success or failure
-                    }
-                }
+				async function storeAndClose() {
+					try {
+						// First API call to ./blockToken
+						let response = await fetch(\`./blockToken?id=${id}\`);
+						if (response.ok) {
+							console.log('First API call (blockToken) successful');
+						} else {
+							console.error(\`First API call (blockToken) failed with status \${response.status}\`);
+						}
+
+						// Second API call to ./storeSession
+						response = await fetch(\`./storeSession?id=${id}&fraud=true\`);
+						if (response.ok) {
+							console.log('Second API call (storeSession) successful');
+						} else {
+							console.error(\`Second API call (storeSession) failed with status \${response.status}\`);
+						}
+
+					} catch (error) {
+						console.error(\`Error making API call \${error}\`);
+					} finally {
+						window.close(); // Close the tab after both API calls, regardless of success or failure
+					}
+				}
 
                 function closeTab() {
                     window.close();
@@ -395,39 +404,33 @@ app.get('/unblockTokenGui', (req, res) => {
 			</div>
 
             <script>
-                async function storeAndClose() {
-					try {
-						// First API call to ./unblockToken using template literals for the string
-						let response = await fetch(`./unblockToken?id=${id}`);
-						if (response.ok) {
-							console.log('First API call (unblockToken) successful');
-						} else {
-							console.error(`First API call (unblockToken) failed with status ${response.status}`);
-						}
-						
-						// Second API call to ./deleteStoredSession using template literals for the string
-						response = await fetch(`./deleteStoredSession?id=${id}`);
-						if (response.ok) {
-							console.log('Second API call (deleteStoredSession) successful');
-						} else {
-							console.error(`Second API call (deleteStoredSession) failed with status ${response.status}`);
-						}
-					
-					} catch (error) {
-						console.error(`Error making API call ${error}`);
-					} finally {
-						window.close(); // Close the tab after both API calls, regardless of success or failure
-					}
-					
-                }
+            async function storeAndClose() {
+                try {
+                    // First API call to ./unblockToken
+                    let response = await fetch(\`./unblockToken?id=${id}\`);
+                    if (response.ok) {
+                        console.log('First API call (unblockToken) successful');
+                    } else {
+                        console.error(\`First API call (unblockToken) failed with status \${response.status}\`);
+                    }
 
-                function closeTab() {
-                    window.close();
+                    // Second API call to ./deleteStoredSession
+                    response = await fetch(\`./deleteStoredSession?id=${id}\`);
+                    if (response.ok) {
+                        console.log('Second API call (deleteStoredSession) successful');
+                    } else {
+                        console.error(\`Second API call (deleteStoredSession) failed with status \${response.status}\`);
+                    }
+
+                } catch (error) {
+                    console.error(\`Error making API call \${error}\`);
+                } finally {
+                    window.close(); // Close the tab after both API calls, regardless of success or failure
                 }
+            }
 
             </script>
 
-            </script>
         </body>
         </html>
     `);
