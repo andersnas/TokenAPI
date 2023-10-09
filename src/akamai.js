@@ -173,6 +173,26 @@ app.get('/test', (req, res) => {
 	res.status(200).json('ok');
 });
 
+app.get('/gui', (req, res) => {
+    res.send(`
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>Close Tab Example</title>
+        </head>
+        <body>
+            <button onclick="closeTab()">Close this tab</button>
+
+            <script>
+                function closeTab() {
+                    window.close();
+                }
+            </script>
+        </body>
+        </html>
+    `);
+});
+
 app.get('/createToken', (req, res) => {
 	log('createToken');
 	if (req.query.auth == "_Akama1zedTV2T0ken_")
