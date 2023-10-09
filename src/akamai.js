@@ -402,7 +402,7 @@ app.get('/unblockTokenGui', (req, res) => {
 				<button class="btn-primary" onclick="storeAndClose()">OK</button>
 				<button class="btn-secondary" onclick="closeTab()">Cancel</button>
 			</div>
-
+  
             <script>
                 async function storeAndClose() {
 					try {
