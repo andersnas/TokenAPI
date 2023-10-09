@@ -14,5 +14,8 @@ You need to set your configuration details in the default.json file, like so:
     },
     "token": {
         "key": "TokenPrivateKey"
+    },
+    "elasticdb": {
+        "url": "http://hostname:9200"
     }
 }
