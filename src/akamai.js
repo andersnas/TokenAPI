@@ -249,8 +249,6 @@ app.get('/storeSessionGui', (req, res) => {
 			<button class="btn-secondary" onclick="closeTab()">Cancel</button>
 		</div>
 
-
-
             <script>
                 async function storeAndClose() {
                     try {
@@ -293,11 +291,11 @@ app.get('/deleteStoredSessionGui', (req, res) => {
         <body>
 			<div class="centered-box">
 			<div class="warning-text">
-				Do you intend to delete the stored session ${id}?
+				Do you intend to delete stored session ${id}?
 			</div>
-				<button onclick="storeAndClose()">OK</button>
-				<button onclick="closeTab()">Cancel</button>
-			</div>
+			<button class="btn-primary" onclick="storeAndClose()">OK</button>
+			<button class="btn-secondary" onclick="closeTab()">Cancel</button>
+		</div>
 
             <script>
                 async function storeAndClose() {
