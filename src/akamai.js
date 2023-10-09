@@ -396,19 +396,29 @@ app.get('/unblockTokenGui', (req, res) => {
 
             <script>
                 async function storeAndClose() {
-                    try {
-                        // Make the API call
-                        const response = await fetch('./unblockToken?id=${id}');
-                        if (response.ok) {
-                            console.log('API call successful');
-                        } else {
-                            console.error('API call failed with status', response.status);
-                        }
-                    } catch (error) {
-                        console.error('Error making API call', error);
-                    } finally {
-                        window.close(); // Close the tab after the API call, regardless of success or failure
-                    }
+					try {
+						// First API call to ./unblockToken using template literals for the string
+						let response = await fetch(`./unblockToken?id=${id}`);
+						if (response.ok) {
+							console.log('First API call (unblockToken) successful');
+						} else {
+							console.error(`First API call (unblockToken) failed with status ${response.status}`);
+						}
+						
+						// Second API call to ./deleteStoredSession using template literals for the string
+						response = await fetch(`./deleteStoredSession?id=${id}`);
+						if (response.ok) {
+							console.log('Second API call (deleteStoredSession) successful');
+						} else {
+							console.error(`Second API call (deleteStoredSession) failed with status ${response.status}`);
+						}
+					
+					} catch (error) {
+						console.error(`Error making API call ${error}`);
+					} finally {
+						window.close(); // Close the tab after both API calls, regardless of success or failure
+					}
+					
                 }
 
                 function closeTab() {
