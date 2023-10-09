@@ -239,7 +239,6 @@ app.get('/storeSessionGui', (req, res) => {
             <title>Store session</title>
     		<link rel="stylesheet" type="text/css" href="./styles.css">
 		</head>
-        </head>
         <body>
 		<div class="centered-box">
 			<div class="warning-text">
@@ -290,12 +289,12 @@ app.get('/deleteStoredSessionGui', (req, res) => {
         </head>
         <body>
 			<div class="centered-box">
-			<div class="warning-text">
-				Do you intend to delete stored session ${id}?
+				<div class="warning-text">
+					Do you intend to delete stored session ${id}?
+				</div>
+				<button class="btn-primary" onclick="storeAndClose()">OK</button>
+				<button class="btn-secondary" onclick="closeTab()">Cancel</button>
 			</div>
-			<button class="btn-primary" onclick="storeAndClose()">OK</button>
-			<button class="btn-secondary" onclick="closeTab()">Cancel</button>
-		</div>
 
             <script>
                 async function storeAndClose() {
