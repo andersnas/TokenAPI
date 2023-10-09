@@ -213,9 +213,13 @@ app.get('/storeSessionGui', (req, res) => {
 		</head>
         </head>
         <body>
-			Do you intend to store session ${id} with as fraud=${fraud}</br>
-            <button onclick="storeAndClose()">OK</button>
-            <button onclick="closeTab()">Cancel</button>
+		<div class="centered-box">
+			<div class="warning-text">
+				Do you intend to store session ${id} with as fraud=${fraud}?
+			</div>
+			<button onclick="storeAndClose()">OK</button>
+			<button onclick="closeTab()">Cancel</button>
+		</div>
 
             <script>
                 async function storeAndClose() {
@@ -233,6 +237,11 @@ app.get('/storeSessionGui', (req, res) => {
                         window.close(); // Close the tab after the API call, regardless of success or failure
                     }
                 }
+
+				function closeTab() {
+                    window.close();
+                }
+
 
             </script>
         </body>
@@ -252,9 +261,13 @@ app.get('/deleteStoredSessionGui', (req, res) => {
 			<link rel="stylesheet" type="text/css" href="./styles.css">
         </head>
         <body>
-			Do you intend to delete stored session ${id}</br>
-            <button onclick="storeAndClose()">OK</button>
-            <button onclick="closeTab()">Cancel</button>
+			<div class="centered-box">
+			<div class="warning-text">
+				Do you intend to delete the stored session ${id}?
+			</div>
+				<button onclick="storeAndClose()">OK</button>
+				<button onclick="closeTab()">Cancel</button>
+			</div>
 
             <script>
                 async function storeAndClose() {
@@ -272,6 +285,12 @@ app.get('/deleteStoredSessionGui', (req, res) => {
                         window.close(); // Close the tab after the API call, regardless of success or failure
                     }
                 }
+
+                function closeTab() {
+                    window.close();
+                }
+
+            </script>
 
             </script>
         </body>
