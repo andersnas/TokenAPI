@@ -181,9 +181,10 @@ app.get('/gui', (req, res) => {
         <!DOCTYPE html>
         <html>
         <head>
-            <title>Close Tab Example</title>
+            <title>Store session</title>
         </head>
         <body>
+			Do you intend to store session ${id} with as fraud=${fraud}</br>
             <button onclick="storeAndClose()">OK</button>
             <button onclick="closeTab()">Cancel</button>
 
