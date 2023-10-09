@@ -187,6 +187,7 @@ app.get('/gui', (req, res) => {
                 function closeTab() {
                     window.close();
                 }
+				window.close();
             </script>
         </body>
         </html>
