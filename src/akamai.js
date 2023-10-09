@@ -174,6 +174,39 @@ app.get('/test', (req, res) => {
 });
 
 app.get('/gui', (req, res) => {
+    const id = req.query.id;
+    const fraud = req.query.fraud;
+
+    res.send(`
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>Close Tab Example</title>
+        </head>
+        <body>
+            <script>
+                // Immediately Invoked Function to run the fetch as soon as the page loads
+                (async function() {
+                    try {
+                        // Make the API call
+                        const response = await fetch('/storeSession?id=${id}&fraud=${fraud}');
+                        if (response.ok) {
+                            console.log('API call successful');
+                            window.close(); // Close the tab after the API call
+                        } else {
+                            console.error('API call failed with status', response.status);
+                        }
+                    } catch (error) {
+                        console.error('Error making API call', error);
+                    }
+                })();
+            </script>
+        </body>
+        </html>
+    `);
+});
+
+/*app.get('/gui', (req, res) => {
     res.send(`
         <!DOCTYPE html>
         <html>
@@ -187,14 +220,14 @@ app.get('/gui', (req, res) => {
                 function closeTab() {
                     window.close();
                 }
-				
+
 				window.close();
 
             </script>
         </body>
         </html>
     `);
-});
+});*/
 
 app.get('/createToken', (req, res) => {
 	log('createToken');
