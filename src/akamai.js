@@ -173,6 +173,33 @@ app.get('/test', (req, res) => {
 	res.status(200).json('ok');
 });
 
+app.get('/styles.css', (req, res) => {
+    res.type('text/css');
+    res.send(`
+        body {
+            font-family: Arial, sans-serif;
+            background-color: grey;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .centered-box {
+            background-color: white;
+            padding: 20px;
+            border: 1px solid lightgrey;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        .warning-text {
+            color: red;
+            margin-bottom: 20px;
+        }
+    `);
+});
+
 app.get('/storeSessionGui', (req, res) => {
     const id = req.query.id;
     const fraud = req.query.fraud;
@@ -182,6 +209,8 @@ app.get('/storeSessionGui', (req, res) => {
         <html>
         <head>
             <title>Store session</title>
+    		<link rel="stylesheet" type="text/css" href="./styles.css">
+		</head>
         </head>
         <body>
 			Do you intend to store session ${id} with as fraud=${fraud}</br>
@@ -220,6 +249,7 @@ app.get('/deleteStoredSessionGui', (req, res) => {
         <html>
         <head>
             <title>Delete stored session</title>
+			<link rel="stylesheet" type="text/css" href="./styles.css">
         </head>
         <body>
 			Do you intend to delete stored session ${id}</br>
