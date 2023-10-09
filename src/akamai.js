@@ -325,29 +325,103 @@ app.get('/deleteStoredSessionGui', (req, res) => {
     `);
 });
 
+app.get('/blockTokenGui', (req, res) => {
+    const id = req.query.id;
+    const fraud = req.query.fraud;
 
-/*app.get('/gui', (req, res) => {
     res.send(`
         <!DOCTYPE html>
         <html>
         <head>
-            <title>Close Tab Example</title>
+            <title>Block token</title>
+			<link rel="stylesheet" type="text/css" href="./styles.css">
         </head>
         <body>
-            <button onclick="closeTab()">Close this tab</button>
+			<div class="centered-box">
+				<div class="warning-text">
+					Do you intend to block token ${id}?
+				</div>
+				<button class="btn-primary" onclick="storeAndClose()">OK</button>
+				<button class="btn-secondary" onclick="closeTab()">Cancel</button>
+			</div>
 
             <script>
+                async function storeAndClose() {
+                    try {
+                        // Make the API call
+                        const response = await fetch('./blockToken?id=${id}');
+                        if (response.ok) {
+                            console.log('API call successful');
+                        } else {
+                            console.error('API call failed with status', response.status);
+                        }
+                    } catch (error) {
+                        console.error('Error making API call', error);
+                    } finally {
+                        window.close(); // Close the tab after the API call, regardless of success or failure
+                    }
+                }
+
                 function closeTab() {
                     window.close();
                 }
 
-				window.close();
+            </script>
 
             </script>
         </body>
         </html>
     `);
-});*/
+});
+
+app.get('/unblockTokenGui', (req, res) => {
+    const id = req.query.id;
+    const fraud = req.query.fraud;
+
+    res.send(`
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>Unblock token</title>
+			<link rel="stylesheet" type="text/css" href="./styles.css">
+        </head>
+        <body>
+			<div class="centered-box">
+				<div class="warning-text">
+					Do you intend to unblock token ${id}?
+				</div>
+				<button class="btn-primary" onclick="storeAndClose()">OK</button>
+				<button class="btn-secondary" onclick="closeTab()">Cancel</button>
+			</div>
+
+            <script>
+                async function storeAndClose() {
+                    try {
+                        // Make the API call
+                        const response = await fetch('./unblockToken?id=${id}');
+                        if (response.ok) {
+                            console.log('API call successful');
+                        } else {
+                            console.error('API call failed with status', response.status);
+                        }
+                    } catch (error) {
+                        console.error('Error making API call', error);
+                    } finally {
+                        window.close(); // Close the tab after the API call, regardless of success or failure
+                    }
+                }
+
+                function closeTab() {
+                    window.close();
+                }
+
+            </script>
+
+            </script>
+        </body>
+        </html>
+    `);
+});
 
 app.get('/createToken', (req, res) => {
 	log('createToken');
