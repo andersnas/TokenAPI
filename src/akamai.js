@@ -138,6 +138,25 @@ function decrypt(text) {
 		}
 	}
 
+	async function deleteBySid(sid) {
+		try {
+			const response = await esclient.deleteByQuery({
+				index: 'storedsessions',  // replace with your actual index name
+				body: {
+					query: {
+						term: {
+							'sid.keyword': sid.toString()
+						}
+					}
+				}
+			});
+	
+			console.log('Delete operation response:', response.body);
+		} catch (error) {
+			console.error('Error during deletion:', error);
+		}
+	}
+
 //Catch all requests and log them
 app.use(express.json());
 
@@ -209,6 +228,21 @@ app.get('/storeSession', (req, res) => {
         } else if (!('fraud' in req.query) || req.query.fraud === "") {
             res.status(400).json({ status: "error missing or empty fraud parameter" });
         }
+    }
+});
+
+app.get('/deleteStoredSession', (req, res) => {
+    log('deleteSession ' + req.query.id);
+
+    const isFraud = req.query.fraud === 'true';
+
+    if (req.query.id && req.query.id !== "") {
+        deleteBySid(req.query.id);
+        res.status(200).json({ status: "ok" });
+    } else {
+        if (!req.query.id || req.query.id === "") {
+            res.status(404).json({ status: "error missing id" });
+        } 
     }
 });
 
