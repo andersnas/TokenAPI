@@ -187,8 +187,9 @@ app.get('/gui', (req, res) => {
                 function closeTab() {
                     window.close();
                 }
-				window.close();
 				
+				window.close();
+
             </script>
         </body>
         </html>
@@ -197,7 +198,7 @@ app.get('/gui', (req, res) => {
 
 app.get('/createToken', (req, res) => {
 	log('createToken');
-	if (req.query.auth == "_Akama1zedTV2T0ken_")
+	if (req.query.auth == "_Akama1zedT0ken_")
 	{
 		var ea = new EdgeAuth({key: config.get("token.key"), windowSeconds: 5000, escapeEarly: true, verbose: false});
 		var token = ea.generateACLToken("/*");
