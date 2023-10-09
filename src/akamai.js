@@ -211,7 +211,7 @@ app.get('/storeSessionGui', (req, res) => {
     `);
 });
 
-app.get('/storeSessionGui', (req, res) => {
+app.get('/deleteStoredSessionGui', (req, res) => {
     const id = req.query.id;
     const fraud = req.query.fraud;
 
@@ -219,7 +219,7 @@ app.get('/storeSessionGui', (req, res) => {
         <!DOCTYPE html>
         <html>
         <head>
-            <title>Store session</title>
+            <title>Delete stored session</title>
         </head>
         <body>
 			Do you intend to delete stored session ${id}</br>
