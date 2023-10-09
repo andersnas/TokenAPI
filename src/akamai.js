@@ -463,7 +463,7 @@ app.get('/blockToken', (req, res) => {
 		});		
 	} else res.status(404).send('Missing or flaw id');
 });
-
+  
 app.get('/storeSession', (req, res) => {
     log('storeSession ' + req.query.id);
 
