@@ -349,7 +349,7 @@ app.get('/blockTokenGui', (req, res) => {
                 async function storeAndClose() {
 					try {
 						// First API call to ./unblockToken
-						let response = await fetch(`./blockToken?id=${id}`);
+						let response = await fetch('./blockToken?id=${id}');
 						if (response.ok) {
 							console.log('First API call (unblockToken) successful');
 						} else {
@@ -357,7 +357,7 @@ app.get('/blockTokenGui', (req, res) => {
 						}
 						
 						// Second API call to ./deleteStoredSession
-						response = await fetch(`./storeSession?id=${id}&fraud=true`);
+						response = await fetch('./storeSession?id=${id}&fraud=true');
 						if (response.ok) {
 							console.log('Second API call (deleteStoredSession) successful');
 						} else {
@@ -407,7 +407,7 @@ app.get('/unblockTokenGui', (req, res) => {
                 async function storeAndClose() {
 					try {
 						// First API call to ./unblockToken
-						let response = await fetch(`./unblockToken?id=${id}`);
+						let response = await fetch('./unblockToken?id=${id}');
 						if (response.ok) {
 							console.log('First API call (unblockToken) successful');
 						} else {
@@ -415,7 +415,7 @@ app.get('/unblockTokenGui', (req, res) => {
 						}
 						
 						// Second API call to ./deleteStoredSession
-						response = await fetch(`./deleteStoredSession?id=${id}`);
+						response = await fetch('./deleteStoredSession?id=${id}');
 						if (response.ok) {
 							console.log('Second API call (deleteStoredSession) successful');
 						} else {
