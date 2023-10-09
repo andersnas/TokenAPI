@@ -192,7 +192,7 @@ app.get('/gui', (req, res) => {
                 async function storeAndClose() {
                     try {
                         // Make the API call
-                        const response = await fetch('/storeSession?id=${id}&fraud=${fraud}');
+                        const response = await fetch('./storeSession?id=${id}&fraud=${fraud}');
                         if (response.ok) {
                             console.log('API call successful');
                         } else {
@@ -205,9 +205,6 @@ app.get('/gui', (req, res) => {
                     }
                 }
 
-                function closeTab() {
-                    window.close();  // Just close the tab
-                }
             </script>
         </body>
         </html>
