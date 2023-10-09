@@ -176,28 +176,56 @@ app.get('/test', (req, res) => {
 app.get('/styles.css', (req, res) => {
     res.type('text/css');
     res.send(`
-        body {
-            font-family: Arial, sans-serif;
-            background-color: grey;
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
+	body {
+		font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+		background-color: #f7f8fa;
+		margin: 0;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		height: 100vh;
+	}
 
-        .centered-box {
-            background-color: white;
-            padding: 20px;
-            border: 1px solid lightgrey;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
+	.centered-box {
+		background-color: white;
+		padding: 20px;
+		border: 1px solid #e0e4e7;
+		box-shadow: 0 0 10px rgba(0,0,0,0.1);
+		border-radius: 3px;
+	}
 
-        .warning-text {
-            color: red;
-            margin-bottom: 20px;
-        }
-    `);
+	.warning-text {
+		color: #d44950;
+		margin-bottom: 20px;
+	}
+
+	button {
+		padding: 10px 15px;
+		border: none;
+		border-radius: 4px;
+		font-weight: 500;
+		margin-right: 10px;
+		cursor: pointer;
+	}
+
+	button:last-child {
+		margin-right: 0;
+	}
+
+	button:focus {
+		outline: none;
+	}
+
+	.btn-primary {
+		background-color: #299c46;
+		color: white;
+	}
+
+	.btn-secondary {
+		background-color: #3274d9;
+		color: white;
+	}
+	`);
 });
 
 app.get('/storeSessionGui', (req, res) => {
@@ -217,9 +245,11 @@ app.get('/storeSessionGui', (req, res) => {
 			<div class="warning-text">
 				Do you intend to store session ${id} with as fraud=${fraud}?
 			</div>
-			<button onclick="storeAndClose()">OK</button>
-			<button onclick="closeTab()">Cancel</button>
+			<button class="btn-primary" onclick="storeAndClose()">OK</button>
+			<button class="btn-secondary" onclick="closeTab()">Cancel</button>
 		</div>
+
+
 
             <script>
                 async function storeAndClose() {
