@@ -173,7 +173,7 @@ app.get('/test', (req, res) => {
 	res.status(200).json('ok');
 });
 
-app.get('/gui', (req, res) => {
+app.get('/storeSessionGui', (req, res) => {
     const id = req.query.id;
     const fraud = req.query.fraud;
 
@@ -193,6 +193,44 @@ app.get('/gui', (req, res) => {
                     try {
                         // Make the API call
                         const response = await fetch('./storeSession?id=${id}&fraud=${fraud}');
+                        if (response.ok) {
+                            console.log('API call successful');
+                        } else {
+                            console.error('API call failed with status', response.status);
+                        }
+                    } catch (error) {
+                        console.error('Error making API call', error);
+                    } finally {
+                        window.close(); // Close the tab after the API call, regardless of success or failure
+                    }
+                }
+
+            </script>
+        </body>
+        </html>
+    `);
+});
+
+app.get('/storeSessionGui', (req, res) => {
+    const id = req.query.id;
+    const fraud = req.query.fraud;
+
+    res.send(`
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>Store session</title>
+        </head>
+        <body>
+			Do you intend to delete stored session ${id}</br>
+            <button onclick="storeAndClose()">OK</button>
+            <button onclick="closeTab()">Cancel</button>
+
+            <script>
+                async function storeAndClose() {
+                    try {
+                        // Make the API call
+                        const response = await fetch('./deleteStoredSession?id=${id}');
                         if (response.ok) {
                             console.log('API call successful');
                         } else {
