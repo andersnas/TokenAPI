@@ -573,6 +573,11 @@ app.get('/blockList/listSessionIDs', (req, res) => {
 	res.status(200).send("ok");*/
 });
 
+app.get('/generateToken', (req, res) => {
+    log('generateToken');
+	res.status(200).json({ token: "MySuperToken" });
+});
+
 
 app.get('/blockList/listTokens', (req, res) => {
 	log('Query');
