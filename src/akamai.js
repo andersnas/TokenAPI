@@ -3,6 +3,7 @@
 
 const loglevel = 'debug';
 const express = require('express');
+const jwt = require('jsonwebtoken');
 const app = express();
 const cors = require('cors');
 const crypto = require('crypto');
@@ -13,7 +14,10 @@ const { Client } = require('@elastic/elasticsearch');
 var EdgeGrid = require('akamai-edgegrid');
    
 var eg = new EdgeGrid(config.get("akamaiAuth.clientToken"), config.get("akamaiAuth.clientSecret"), config.get("akamaiAuth.accessToken"), config.get("akamaiAuth.baseUri"));
- 
+
+const JWT_KEY = config.get("interfaceaccesstoken.key")
+
+
 // Define the encryption details
 const algorithm = 'aes-256-cbc';
 const secret = '1111111111your-shared-secret-key';  // This must be 256 bits (32 characters)
@@ -157,6 +161,25 @@ function decrypt(text) {
 		}
 	}
 
+	function verifyToken(req, res, next) {
+		const jwttoken = req.query.jwttoken; // Assuming token is passed as a query parameter.
+	
+		if (!jwttoken) {
+			return res.status(401).json({ message: "No token provided." });
+		}
+	
+		jwt.verify(jwttoken, JWT_KEY, (err, decoded) => {
+			if (err) {
+				return res.status(401).json({ message: "Invalid or expired token." });
+			}
+	
+			// Optionally, you can attach the decoded payload to the request object.
+			req.decoded = decoded;
+	
+			next(); // If token is valid, continue processing the request.
+		});
+	}
+
 //Catch all requests and log them
 app.use(express.json());
 
@@ -168,7 +191,7 @@ app.use((req, res, next) => {
 	});
 
 //API methods
-app.get('/test', (req, res) => {
+app.get('/test', verifyToken, (req, res) => {
 	log('test');
 	res.status(200).json('ok');
 });
@@ -228,9 +251,10 @@ app.get('/styles.css', (req, res) => {
 	`);
 });
 
-app.get('/storeSessionGui', (req, res) => {
+app.get('/storeSessionGui', verifyToken, (req, res) => {
     const id = req.query.id;
     const fraud = req.query.fraud;
+	const jwttoken = req.query.jwttoken;
 
     res.send(`
         <!DOCTYPE html>
@@ -252,7 +276,7 @@ app.get('/storeSessionGui', (req, res) => {
                 async function storeAndClose() {
                     try {
                         // Make the API call
-                        const response = await fetch('./storeSession?id=${id}&fraud=${fraud}');
+                        const response = await fetch('./storeSession?id=${id}&fraud=${fraud}&fraud=${jwttoken}');
                         if (response.ok) {
                             console.log('API call successful');
                         } else {
@@ -276,9 +300,10 @@ app.get('/storeSessionGui', (req, res) => {
     `);
 });
 
-app.get('/deleteStoredSessionGui', (req, res) => {
+app.get('/deleteStoredSessionGui', verifyToken, (req, res) => {
     const id = req.query.id;
     const fraud = req.query.fraud;
+	const jwttoken = req.query.jwttoken;
 
     res.send(`
         <!DOCTYPE html>
@@ -300,7 +325,7 @@ app.get('/deleteStoredSessionGui', (req, res) => {
                 async function storeAndClose() {
                     try {
                         // Make the API call
-                        const response = await fetch('./deleteStoredSession?id=${id}');
+                        const response = await fetch('./deleteStoredSession?id=${id}&jwttoken=${jwttoken}');
                         if (response.ok) {
                             console.log('API call successful');
                         } else {
@@ -325,9 +350,10 @@ app.get('/deleteStoredSessionGui', (req, res) => {
     `);
 });
 
-app.get('/blockTokenGui', (req, res) => {
+app.get('/blockTokenGui', verifyToken, (req, res) => {
     const id = req.query.id;
     const fraud = req.query.fraud;
+	const jwttoken = req.query.jwttoken;
 
     res.send(`
         <!DOCTYPE html>
@@ -349,7 +375,7 @@ app.get('/blockTokenGui', (req, res) => {
 				async function storeAndClose() {
 					try {
 						// First API call to ./blockToken
-						let response = await fetch(\`./blockToken?id=${id}\`);
+						let response = await fetch(\`./blockToken?id=${id}&jwttoken=${jwttoken}\`);
 						if (response.ok) {
 							console.log('First API call (blockToken) successful');
 						} else {
@@ -357,7 +383,7 @@ app.get('/blockTokenGui', (req, res) => {
 						}
 
 						// Second API call to ./storeSession
-						response = await fetch(\`./storeSession?id=${id}&fraud=true\`);
+						response = await fetch(\`./storeSession?id=${id}&fraud=true&jwttoken=${jwttoken}\`);
 						if (response.ok) {
 							console.log('Second API call (storeSession) successful');
 						} else {
@@ -383,9 +409,10 @@ app.get('/blockTokenGui', (req, res) => {
     `);
 });
 
-app.get('/unblockTokenGui', (req, res) => {
+app.get('/unblockTokenGui', verifyToken, (req, res) => {
     const id = req.query.id;
     const fraud = req.query.fraud;
+	const jwttoken = req.query.jwttoken;
 
     res.send(`
         <!DOCTYPE html>
@@ -407,7 +434,7 @@ app.get('/unblockTokenGui', (req, res) => {
             async function storeAndClose() {
                 try {
                     // First API call to ./unblockToken
-                    let response = await fetch(\`./unblockToken?id=${id}\`);
+                    let response = await fetch(\`./unblockToken?id=${id}&jwttoken=${jwttoken}\`);
                     if (response.ok) {
                         console.log('First API call (unblockToken) successful');
                     } else {
@@ -436,7 +463,7 @@ app.get('/unblockTokenGui', (req, res) => {
     `);
 });
 
-app.get('/createToken', (req, res) => {
+app.get('/createToken', verifyToken, (req, res) => {
 	log('createToken');
 	if (req.query.auth == "_Akama1zedT0ken_")
 	{
@@ -449,7 +476,7 @@ app.get('/createToken', (req, res) => {
 	} else res.status(404).send('{"status":"access denied"}');
 });
 
-app.get('/blockToken', (req, res) => {
+app.get('/blockToken', verifyToken, (req, res) => {
 	log('blockToken '+req.query.id);
 	if ((req.query.id != "")&&(req.query.id != undefined)){
 		var data = [
@@ -477,7 +504,7 @@ app.get('/blockToken', (req, res) => {
 	} else res.status(404).send('Missing or flaw id');
 });
   
-app.get('/storeSession', (req, res) => {
+app.get('/storeSession', verifyToken, (req, res) => {
     log('storeSession ' + req.query.id);
 
     const isFraud = req.query.fraud === 'true';
@@ -494,7 +521,7 @@ app.get('/storeSession', (req, res) => {
     }
 });
 
-app.get('/deleteStoredSession', (req, res) => {
+app.get('/deleteStoredSession', verifyToken, (req, res) => {
     log('deleteSession ' + req.query.id);
 
     const isFraud = req.query.fraud === 'true';
@@ -509,9 +536,7 @@ app.get('/deleteStoredSession', (req, res) => {
     }
 });
 
-
-
-app.get('/unblockToken', (req, res) => {
+app.get('/unblockToken', verifyToken, (req, res) => {
 	log('unblockToken '+req.query.id);
 	if ((req.query.id != "")&&(req.query.id != undefined)){
 		var data = [
@@ -575,7 +600,9 @@ app.get('/blockList/listSessionIDs', (req, res) => {
 
 app.get('/generateToken', (req, res) => {
     log('generateToken');
-	res.status(200).json({"total_tokens": 5927, "listItems": [{"token": "5c750112115335f0dd45eb1bc2e6be9baf4fe73ac510513107aa187c3bd5b90b"}]});
+	const token = jwt.sign({ timestamp: Date.now() }, JWT_KEY, { expiresIn: '5m' });
+	res.status(200).json({"listItems": [{"jwttoken": token}]});
+
 });
 
 
