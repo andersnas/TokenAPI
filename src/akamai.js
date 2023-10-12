@@ -457,7 +457,7 @@ app.get('/unblockTokenGui', verifyToken, (req, res) => {
                     }
 
                     // Second API call to ./deleteStoredSession
-                    response = await fetch(\`./deleteStoredSession?id=${id}\`);
+                    response = await fetch(\`./deleteStoredSession?id=${id}&jwttoken=${jwttoken}\`);
                     if (response.ok) {
                         console.log('Second API call (deleteStoredSession) successful');
                     } else {
