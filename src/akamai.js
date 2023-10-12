@@ -575,7 +575,7 @@ app.get('/blockList/listSessionIDs', (req, res) => {
 
 app.get('/generateToken', (req, res) => {
     log('generateToken');
-	res.status(200).json({ token: "MySuperToken" });
+	res.status(200).json({"total_tokens": 5927, "listItems": [{"token": "5c750112115335f0dd45eb1bc2e6be9baf4fe73ac510513107aa187c3bd5b90b"}]});
 });
 
 
