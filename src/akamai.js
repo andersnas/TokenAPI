@@ -308,7 +308,6 @@ app.get('/storeSessionGui', verifyToken, (req, res) => {
                     window.close();
                 }
 
-
             </script>
         </body>
         </html>
@@ -356,8 +355,6 @@ app.get('/deleteStoredSessionGui', verifyToken, (req, res) => {
                 function closeTab() {
                     window.close();
                 }
-
-            </script>
 
             </script>
         </body>
@@ -417,8 +414,6 @@ app.get('/blockTokenGui', verifyToken, (req, res) => {
                 }
 
             </script>
-
-            </script>
         </body>
         </html>
     `);
@@ -470,6 +465,10 @@ app.get('/unblockTokenGui', verifyToken, (req, res) => {
                     window.close(); // Close the tab after both API calls, regardless of success or failure
                 }
             }
+
+			function closeTab() {
+				window.close();
+			}
 
             </script>
 
