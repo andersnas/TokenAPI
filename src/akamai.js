@@ -614,7 +614,7 @@ app.get('/blockList/listSessionIDs', (req, res) => {
 
 app.get('/generateToken', verifyIP, (req, res) => {
     log('generateToken');
-	const token = jwt.sign({ timestamp: Date.now() }, JWT_KEY, { expiresIn: '5m' });
+	const token = jwt.sign({ timestamp: Date.now() }, JWT_KEY, { expiresIn: '15m' });
 	res.status(200).json({"listItems": [{"jwttoken": token}]});
 
 });
