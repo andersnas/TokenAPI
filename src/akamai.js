@@ -161,15 +161,30 @@ function decrypt(text) {
 		}
 	}
 
+	function verifyIP(req, res, next) {
+		const clientIp = req.connection.remoteAddress || req.headers['x-forwarded-for'];
+	
+		log('IP check: '+clientIp);
+
+		if (clientIp === '127.0.0.1' || clientIp === '::1') {
+			next();
+		} else {
+			log('IP Access denied');
+			res.status(403).send('Access denied from IP: ' + clientIp);
+		}
+	}
+	
 	function verifyToken(req, res, next) {
 		const jwttoken = req.query.jwttoken; // Assuming token is passed as a query parameter.
 	
 		if (!jwttoken) {
+			log('No JWT Token Access denied');
 			return res.status(401).json({ message: "No token provided." });
 		}
 	
 		jwt.verify(jwttoken, JWT_KEY, (err, decoded) => {
 			if (err) {
+				log('JWT Token Access denied');
 				return res.status(401).json({ message: "Invalid or expired token." });
 			}
 	
@@ -266,7 +281,7 @@ app.get('/storeSessionGui', verifyToken, (req, res) => {
         <body>
 		<div class="centered-box">
 			<div class="warning-text">
-				Do you intend to store session ${id} with as fraud=${fraud}?
+				Do you intend to store session ${id} with fraud=${fraud}?
 			</div>
 			<button class="btn-primary" onclick="storeAndClose()">OK</button>
 			<button class="btn-secondary" onclick="closeTab()">Cancel</button>
@@ -276,7 +291,7 @@ app.get('/storeSessionGui', verifyToken, (req, res) => {
                 async function storeAndClose() {
                     try {
                         // Make the API call
-                        const response = await fetch('./storeSession?id=${id}&fraud=${fraud}&fraud=${jwttoken}');
+                        const response = await fetch('./storeSession?id=${id}&fraud=${fraud}&jwttoken=${jwttoken}');
                         if (response.ok) {
                             console.log('API call successful');
                         } else {
@@ -598,7 +613,7 @@ app.get('/blockList/listSessionIDs', (req, res) => {
 	res.status(200).send("ok");*/
 });
 
-app.get('/generateToken', (req, res) => {
+app.get('/generateToken', verifyIP, (req, res) => {
     log('generateToken');
 	const token = jwt.sign({ timestamp: Date.now() }, JWT_KEY, { expiresIn: '5m' });
 	res.status(200).json({"listItems": [{"jwttoken": token}]});
