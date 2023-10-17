@@ -619,6 +619,18 @@ app.get('/generateToken', verifyIP, (req, res) => {
 
 });
 
+app.get('/redirect', (req, res) => {
+	const sid = req.query['var-sid'];
+	if (sid) {
+		// Split the sid by hyphen and take the first part
+		const newSid = sid.split('-')[0];
+		// Construct the new URL
+		const newURL = config.get("redirect.baseURL")+`?var-sid=${newSid}&orgId=${req.query.orgId}}`;
+		// Redirect to the new URL
+		res.redirect (newURL);
+	}
+});
+
 
 app.get('/blockList/listTokens', (req, res) => {
 	log('Query');
